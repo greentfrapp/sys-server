@@ -1,4 +1,5 @@
 import json
+import os
 
 import requests
 from fastapi import FastAPI
@@ -30,13 +31,15 @@ def get_index():
 def post_index(payload: VerificationRequest):
     if payload.challenge:
         return payload.challenge
-    requests.post(
-        "https://hooks.slack.com/services/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",
-        headers={'Content-type': 'application/json'},
-        json={
-            "text": json.dumps(payload.event)
-        },
-    )
+    webhook = os.environ.get("GENERAL_WEBHOOK")
+    if webhook:
+        requests.post(
+            webhook,
+            headers={'Content-type': 'application/json'},
+            json={
+                "text": json.dumps(payload.event)
+            },
+        )
     return payload.challenge
 
 @app.get("/ping")
