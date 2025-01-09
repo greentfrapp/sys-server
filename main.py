@@ -4,7 +4,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import PlainTextResponse
 
-from .schemas import VerificationRequest
+from schemas import VerificationRequest
 
 app = FastAPI(openapi_url=None, docs_url=None, redoc_url=None)
 origins = [
