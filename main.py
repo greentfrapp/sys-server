@@ -37,7 +37,7 @@ def post_index(payload: VerificationRequest):
             webhook,
             headers={'Content-type': 'application/json'},
             json={
-                "text": json.dumps(payload.event)
+                "text": json.dumps(payload.event).replace("@", "") # Remove @ to prevent feedback loop
             },
         )
     return payload.challenge
