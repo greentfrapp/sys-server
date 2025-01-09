@@ -2,6 +2,9 @@ from typing import List
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import PlainTextResponse
+
+from .schemas import VerificationRequest
 
 app = FastAPI(openapi_url=None, docs_url=None, redoc_url=None)
 origins = [
@@ -18,9 +21,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get("/")
-def get_index():
-    return {"message": "success"}
+@app.get("/", response_class=PlainTextResponse,)
+def get_index(payload: VerificationRequest):
+    return payload.challenge
 
 @app.get("/ping")
 def get_ping():
