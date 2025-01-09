@@ -1,5 +1,6 @@
-from typing import List
+import json
 
+import requests
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import PlainTextResponse
@@ -27,6 +28,15 @@ def get_index():
 
 @app.post("/", response_class=PlainTextResponse,)
 def post_index(payload: VerificationRequest):
+    if payload.challenge:
+        return payload.challenge
+    requests.post(
+        "https://hooks.slack.com/services/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",
+        headers={'Content-type': 'application/json'},
+        json={
+            "text": json.dumps(payload.event)
+        },
+    )
     return payload.challenge
 
 @app.get("/ping")
