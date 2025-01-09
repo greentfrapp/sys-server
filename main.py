@@ -21,8 +21,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get("/", response_class=PlainTextResponse,)
-def get_index(payload: VerificationRequest):
+@app.get("/")
+def get_index():
+    return {"message": "success"}
+
+@app.post("/", response_class=PlainTextResponse,)
+def post_index(payload: VerificationRequest):
     return payload.challenge
 
 @app.get("/ping")
